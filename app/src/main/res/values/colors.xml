@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="azul_portaria">#1F3A5F</color>   <!-- primária: toolbar, botões -->
+    <color name="azul_escuro">#14263E</color>     <!-- status bar -->
+    <color name="amarelo_seguranca">#F2A900</color> <!-- destaque, botão Ler QR -->
+    <color name="verde_dentro">#2E7D32</color>     <!-- visitante dentro / sucesso -->
+    <color name="vermelho_recusa">#C62828</color>  <!-- QR recusado / erro -->
+    <color name="cinza_fundo">#F4F6F8</color>
+</resources>
