@@ -1,10 +1,73 @@
-<?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.anfitriao.NovaVisitaActivity">
+    android:fillViewport="true">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/margem_tela">
+
+        <EditText
+            android:id="@+id/edtNomeVisitante"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:minHeight="48dp"
+            android:hint="@string/hint_nome_visitante"
+            android:inputType="textPersonName|textCapWords"
+            android:autofillHints="name"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <EditText
+            android:id="@+id/edtEmpresa"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/espaco_campos"
+            android:minHeight="48dp"
+            android:hint="@string/hint_empresa"
+            android:inputType="textCapWords"
+            android:autofillHints="organization"
+            app:layout_constraintTop_toBottomOf="@id/edtNomeVisitante"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnData"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/altura_botao"
+            android:layout_marginTop="@dimen/espaco_campos"
+            android:layout_marginEnd="8dp"
+            android:text="@string/btn_escolher_data"
+            app:icon="@drawable/baseline_event_24"
+            app:layout_constraintTop_toBottomOf="@id/edtEmpresa"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/btnHora" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnHora"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/altura_botao"
+            android:layout_marginStart="8dp"
+            android:text="@string/btn_escolher_hora"
+            app:icon="@drawable/baseline_schedule_24"
+            app:layout_constraintTop_toTopOf="@id/btnData"
+            app:layout_constraintStart_toEndOf="@id/btnData"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnSalvar"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/altura_botao"
+            android:layout_marginTop="24dp"
+            android:text="@string/btn_salvar"
+            app:layout_constraintTop_toBottomOf="@id/btnData"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="margem_tela">16dp</dimen>
+    <dimen name="espaco_campos">12dp</dimen>
+    <dimen name="altura_botao">56dp</dimen>
+</resources>
