@@ -1,0 +1,58 @@
+<resources>
+    <string name="app_name">Portaria TechInova</string>
+
+    <!-- Login e cadastro (A) -->
+    <string name="hint_email">E-mail</string>
+    <string name="hint_senha">Senha</string>
+    <string name="hint_confirmar_senha">Confirmar senha</string>
+    <string name="btn_entrar">Entrar</string>
+    <string name="btn_cadastrar">Criar conta</string>
+    <string name="link_criar_conta">Ainda não tem conta? Cadastre-se</string>
+    <string name="menu_sair">Sair</string>
+
+    <string name="erro_email_vazio">Informe o e-mail</string>
+    <string name="erro_email_invalido">E-mail inválido</string>
+    <string name="erro_senha_fraca">Use pelo menos 6 caracteres</string>
+    <string name="erro_senhas_diferentes">As senhas não conferem</string>
+    <string name="erro_email_em_uso">Este e-mail já está cadastrado</string>
+    <string name="erro_conta_inexistente">Conta não encontrada ou desativada</string>
+    <string name="erro_credenciais">E-mail ou senha incorretos</string>
+    <string name="erro_sem_internet">Sem conexão com a internet</string>
+    <string name="erro_generico">Não foi possível concluir. Tente de novo.</string>
+
+    <!-- Roteador (A) -->
+    <string name="erro_ler_perfil">Não foi possível carregar seu perfil. Verifique a internet.</string>
+    <string name="conta_sem_perfil">Sua conta ainda não foi liberada. Informe este código ao responsável: %1$s</string>
+
+    <!-- Anfitrião (B) -->
+    <string name="titulo_minhas_visitas">Minhas visitas</string>
+    <string name="titulo_nova_visita">Nova visita</string>
+    <string name="hint_nome_visitante">Nome do visitante</string>
+    <string name="hint_empresa">Empresa</string>
+    <string name="btn_escolher_data">Escolher data</string>
+    <string name="btn_escolher_hora">Escolher horário</string>
+    <string name="btn_salvar">Salvar</string>
+    <string name="vazio_minhas_visitas">Nenhuma visita agendada. Toque em + para agendar a primeira.</string>
+    <string name="visita_salva">Visita agendada</string>
+    <string name="erro_nome_visitante">Informe o nome do visitante</string>
+    <string name="erro_empresa">Informe a empresa</string>
+    <string name="erro_data_vazia">Escolha a data da visita</string>
+    <string name="erro_data_passada">A data não pode ser anterior a hoje</string>
+    <string name="erro_hora_vazia">Escolha o horário previsto</string>
+    <string name="erro_salvar_visita">Não foi possível salvar a visita. Tente de novo.</string>
+    <string name="status_agendada">Agendada</string>
+    <string name="status_dentro">Na fábrica</string>
+    <string name="status_saiu">Saiu</string>
+
+    <!-- Porteiro (C) -->
+    <string name="titulo_presentes">Quem está na fábrica agora</string>
+    <string name="vazio_presentes">Nenhum visitante na fábrica agora.</string>
+    <string name="btn_ler_qr">Ler QR do visitante</string>
+    <string name="em_breve">Disponível em breve</string>
+    <string name="visitando">Visitando: %1$s</string>
+    <string name="entrou_as">Entrou às %1$s</string>
+    <plurals name="contador_presentes">
+        <item quantity="one">%d visitante na fábrica</item>
+        <item quantity="other">%d visitantes na fábrica</item>
+    </plurals>
+</resources>
