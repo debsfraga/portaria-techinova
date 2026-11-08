@@ -21,9 +21,10 @@ import java.util.Locale;
 import br.senai.portaria.R;
 import br.senai.portaria.data.VisitaRepository;
 import br.senai.portaria.model.Visita;
+import br.senai.portaria.ui.BaseLogadaActivity;
 import br.senai.portaria.util.Datas;
 
-public class NovaVisitaActivity extends AppCompatActivity {
+public class NovaVisitaActivity extends BaseLogadaActivity {
 
     private static final String TAG = "NovaVisita";
 
