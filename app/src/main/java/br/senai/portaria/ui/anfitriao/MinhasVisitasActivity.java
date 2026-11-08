@@ -20,8 +20,9 @@ import java.util.List;
 import br.senai.portaria.R;
 import br.senai.portaria.data.VisitaRepository;
 import br.senai.portaria.model.Visita;
+import br.senai.portaria.ui.BaseLogadaActivity;
 
-public class MinhasVisitasActivity extends AppCompatActivity {
+public class MinhasVisitasActivity extends BaseLogadaActivity {
 
     private static final String TAG = "MinhasVisitas";
 
