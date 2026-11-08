@@ -1,0 +1,46 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function logado() { return request.auth != null; }
+    function perfil() {
+      return get(/databases/$(database)/documents/usuarios/$(request.auth.uid)).data.perfil;
+    }
+    function ehAnfitriao() { return logado() && perfil() == 'anfitriao'; }
+    function ehPorteiro()  { return logado() && perfil() == 'porteiro'; }
+    function mudou() {
+      return request.resource.data.diff(resource.data).affectedKeys();
+    }
+
+    match /usuarios/{uid} {
+      allow read: if logado() && request.auth.uid == uid;
+      allow write: if false; // perfil só pelo console
+    }
+
+    match /visitas/{id} {
+      allow read: if ehPorteiro()
+        || (ehAnfitriao() && resource.data.anfitriaoUid == request.auth.uid);
+
+      allow create: if ehAnfitriao()
+        && request.resource.data.anfitriaoUid == request.auth.uid
+        && request.resource.data.status == 'AGENDADA'
+        && request.resource.data.nomeVisitante is string
+        && request.resource.data.nomeVisitante.size() > 0
+        && request.resource.data.data is string;
+
+      allow update: if ehPorteiro() && (
+        (resource.data.status == 'AGENDADA'
+          && request.resource.data.status == 'DENTRO'
+          && mudou().hasOnly(['status', 'entradaEm', 'porteiroEntradaUid']))
+        ||
+        (resource.data.status == 'DENTRO'
+          && request.resource.data.status == 'SAIU'
+          && mudou().hasOnly(['status', 'saidaEm', 'porteiroSaidaUid']))
+      );
+
+      allow delete: if ehAnfitriao()
+        && resource.data.anfitriaoUid == request.auth.uid
+        && resource.data.status == 'AGENDADA';
+    }
+  }
+}
