@@ -9,6 +9,7 @@
     <string name="btn_cadastrar">Criar conta</string>
     <string name="link_criar_conta">Ainda não tem conta? Cadastre-se</string>
     <string name="menu_sair">Sair</string>
+    <string name="subtitulo_login">Controle de entrada e saída de visitantes</string>
 
     <string name="erro_email_vazio">Informe o e-mail</string>
     <string name="erro_email_invalido">E-mail inválido</string>
