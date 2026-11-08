@@ -6,4 +6,5 @@
     <color name="verde_dentro">#2E7D32</color>     <!-- visitante dentro / sucesso -->
     <color name="vermelho_recusa">#C62828</color>  <!-- QR recusado / erro -->
     <color name="cinza_fundo">#F4F6F8</color>
+    <color name="cinza_texto">#5F6B7A</color>
 </resources>
