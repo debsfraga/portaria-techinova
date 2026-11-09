@@ -19,7 +19,7 @@
             android:name=".ui.anfitriao.NovaVisitaActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.anfitriao.MinhaVisitasActivity"
+            android:name=".ui.anfitriao.MinhasVisitasActivity"
             android:exported="false" />
         <activity
             android:name=".ui.auth.CadastroActivity"
