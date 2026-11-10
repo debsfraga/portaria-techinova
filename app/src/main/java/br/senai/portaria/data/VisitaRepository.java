@@ -20,4 +20,9 @@ public class VisitaRepository {
         return visitas.whereEqualTo("anfitriaoUid", uid)
                 .orderBy("data", Query.Direction.DESCENDING);
     }
+
+    public Query presentes() {
+        return visitas.whereEqualTo("status", "DENTRO")
+                .orderBy("entradaEm", Query.Direction.ASCENDING);
+    }
 }
