@@ -1,16 +1,19 @@
 package br.senai.portaria.ui.porteiro;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import androidx.activity.result.ActivityResultLauncher;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.ListenerRegistration;
+import com.journeyapps.barcodescanner.ScanContract;
+import com.journeyapps.barcodescanner.ScanOptions;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,6 +34,15 @@ public class PresentesActivity extends BaseLogadaActivity {
     private TextView txtContador;
     private ListenerRegistration registro;
 
+    // Leitor de QR (ZXing): o resultado volta aqui e abre a conferência
+    private final ActivityResultLauncher<ScanOptions> leitor =
+            registerForActivityResult(new ScanContract(), result -> {
+                if (result.getContents() == null) return;      // cancelou o leitor
+                Intent i = new Intent(this, ConferenciaActivity.class);
+                i.putExtra(ConferenciaActivity.EXTRA_ID, result.getContents().trim());
+                startActivity(i);
+            });
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,9 +60,16 @@ public class PresentesActivity extends BaseLogadaActivity {
         rvPresentes.setHasFixedSize(true);
         rvPresentes.setAdapter(adapter);
 
-        // Fase 2 (issue #9): abre o leitor de QR
-        findViewById(R.id.btnLerQr).setOnClickListener(v ->
-                Toast.makeText(this, R.string.em_breve, Toast.LENGTH_SHORT).show());
+        findViewById(R.id.btnLerQr).setOnClickListener(v -> abrirLeitor());
+    }
+
+    private void abrirLeitor() {
+        ScanOptions op = new ScanOptions();
+        op.setDesiredBarcodeFormats(ScanOptions.QR_CODE);
+        op.setPrompt(getString(R.string.prompt_leitor));
+        op.setBeepEnabled(true);
+        op.setOrientationLocked(false);
+        leitor.launch(op);
     }
 
     @Override
@@ -69,9 +88,8 @@ public class PresentesActivity extends BaseLogadaActivity {
             }
             adapter.atualizar(lista);
 
-            txtContador.setText(lista.isEmpty()
-                    ? getString(R.string.contador_zero)
-                    : getResources().getQuantityString(
+            // o plural já cobre 0 ("0 visitantes"), 1 ("1 visitante") e vários
+            txtContador.setText(getResources().getQuantityString(
                     R.plurals.contador_presentes, lista.size(), lista.size()));
 
             boolean vazia = lista.isEmpty();
