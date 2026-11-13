@@ -52,6 +52,7 @@
     <string name="em_breve">Disponível em breve</string>
     <string name="visitando">Visitando: %1$s</string>
     <string name="entrou_as">Entrou às %1$s</string>
+    <string name="contador_zero">0 visitantes na fábrica</string>
     <plurals name="contador_presentes">
         <item quantity="one">%d visitante na fábrica</item>
         <item quantity="other">%d visitantes na fábrica</item>
