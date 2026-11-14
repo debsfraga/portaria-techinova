@@ -1,15 +1,18 @@
 package br.senai.portaria.ui.porteiro;
 
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.ListenerRegistration;
 import com.journeyapps.barcodescanner.ScanContract;
@@ -53,9 +56,7 @@ public class PresentesActivity extends BaseLogadaActivity {
         rvPresentes = findViewById(R.id.rvPresentes);
         grupoVazio = findViewById(R.id.grupoVazio);
 
-        adapter = new PresenteAdapter(visita -> {
-            // Fase 3 (issue #11): registrar a saída deste visitante
-        });
+        adapter = new PresenteAdapter(this::confirmarSaida);
         rvPresentes.setLayoutManager(new LinearLayoutManager(this));   // sem isso a lista fica em branco
         rvPresentes.setHasFixedSize(true);
         rvPresentes.setAdapter(adapter);
@@ -70,6 +71,29 @@ public class PresentesActivity extends BaseLogadaActivity {
         op.setBeepEnabled(true);
         op.setOrientationLocked(false);
         leitor.launch(op);
+    }
+
+    /** Confirmação antes de uma ação que não tem desfazer (padrão da aula de Firestore). */
+    private void confirmarSaida(Visita visita) {
+        new AlertDialog.Builder(this)
+                .setTitle(R.string.titulo_registrar_saida)
+                .setMessage(getString(R.string.msg_registrar_saida, visita.getNomeVisitante()))
+                .setNegativeButton(R.string.btn_cancelar, null)
+                .setPositiveButton(R.string.btn_registrar_saida, (dialog, which) -> registrarSaida(visita))
+                .show();
+    }
+
+    private void registrarSaida(Visita visita) {
+        repo.registrarSaida(visita.getId(), FirebaseAuth.getInstance().getUid())
+                .addOnSuccessListener(this, r ->
+                        Toast.makeText(this,
+                                getString(R.string.saida_registrada, visita.getNomeVisitante()),
+                                Toast.LENGTH_SHORT).show())
+                .addOnFailureListener(this, e -> {
+                    Log.w(TAG, "Saída recusada", e);
+                    Toast.makeText(this, R.string.erro_saida, Toast.LENGTH_LONG).show();
+                });
+        // não precisa atualizar a lista: o snapshot listener tira o visitante sozinho
     }
 
     @Override
