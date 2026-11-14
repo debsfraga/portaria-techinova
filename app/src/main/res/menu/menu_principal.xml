@@ -4,5 +4,6 @@
         android:id="@+id/action_sair"
         android:icon="@drawable/baseline_logout_24"
         android:title="@string/menu_sair"
+        app:iconTint="@android:color/white"
         app:showAsAction="ifRoom" />
 </menu>
