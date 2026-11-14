@@ -44,6 +44,11 @@
     <string name="status_agendada">Agendada</string>
     <string name="status_dentro">Na fábrica</string>
     <string name="status_saiu">Saiu</string>
+    <string name="titulo_detalhe_visita">QR da visita</string>
+    <string name="instrucao_qr">Mostre este QR na portaria</string>
+    <string name="desc_qr">QR code da visita</string>
+    <string name="erro_gerar_qr">Não foi possível gerar o QR</string>
+    <string name="visita_nao_encontrada">Visita não encontrada</string>
 
     <!-- Porteiro (C) -->
     <string name="titulo_presentes">Quem está na fábrica agora</string>
