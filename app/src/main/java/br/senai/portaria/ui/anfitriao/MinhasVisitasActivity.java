@@ -41,8 +41,11 @@ public class MinhasVisitasActivity extends BaseLogadaActivity {
         rvVisitas = findViewById(R.id.rvVisitas);
         grupoVazio = findViewById(R.id.grupoVazio);
 
-        adapter = new VisitaAdapter(visita ->      // Fase 2: abre o QR da visita
-                Toast.makeText(this, visita.getNomeVisitante(), Toast.LENGTH_SHORT).show());
+        adapter = new VisitaAdapter(visita -> {
+            Intent i = new Intent(this, VisitaDetalheActivity.class);
+            i.putExtra(VisitaDetalheActivity.EXTRA_ID, visita.getId());
+            startActivity(i);
+        });
         rvVisitas.setLayoutManager(new LinearLayoutManager(this));   // sem isso a lista fica em branco
         rvVisitas.setHasFixedSize(true);
         rvVisitas.setAdapter(adapter);
