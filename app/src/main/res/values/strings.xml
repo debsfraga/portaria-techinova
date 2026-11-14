@@ -57,4 +57,19 @@
         <item quantity="one">%d visitante na fábrica</item>
         <item quantity="other">%d visitantes na fábrica</item>
     </plurals>
+
+    <!-- Conferência do QR (C) -->
+    <string name="titulo_conferencia">Conferência da visita</string>
+    <string name="prompt_leitor">Aponte para o QR da visita</string>
+    <string name="btn_registrar_entrada">Registrar entrada</string>
+    <string name="btn_voltar">Voltar</string>
+    <string name="carregando">Carregando…</string>
+    <string name="qr_valido">QR válido para hoje</string>
+    <string name="entrada_registrada">Entrada registrada</string>
+    <string name="label_anfitriao">Anfitrião: %1$s</string>
+    <string name="label_previsto">Previsto: %1$s às %2$s</string>
+    <string name="erro_qr_invalido">QR inválido: visita não encontrada</string>
+    <string name="erro_qr_outro_dia">Este QR vale apenas para %1$s</string>
+    <string name="erro_qr_ja_usado">Entrada já registrada às %1$s</string>
+    <string name="erro_qr_encerrada">Esta visita já foi encerrada</string>
 </resources>
