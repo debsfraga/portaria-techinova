@@ -25,6 +25,14 @@
     <string name="erro_ler_perfil">Não foi possível carregar seu perfil. Verifique a internet.</string>
     <string name="conta_sem_perfil">Sua conta ainda não foi liberada. Informe este código ao responsável: %1$s</string>
 
+    <!-- Saída (A) -->
+    <string name="titulo_registrar_saida">Registrar saída</string>
+    <string name="msg_registrar_saida">Confirmar a saída de %1$s?</string>
+    <string name="btn_cancelar">Cancelar</string>
+    <string name="btn_registrar_saida">Registrar saída</string>
+    <string name="saida_registrada">Saída de %1$s registrada</string>
+    <string name="erro_saida">Não foi possível registrar a saída. Ela pode já ter sido registrada.</string>
+
     <!-- Anfitrião (B) -->
     <string name="titulo_minhas_visitas">Minhas visitas</string>
     <string name="titulo_nova_visita">Nova visita</string>
