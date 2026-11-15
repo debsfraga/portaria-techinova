@@ -31,7 +31,6 @@ O perfil fica em `usuarios/{uid}` e é definido pelo grupo no console do Firebas
 
 ## Telas
 
-> Coloque os prints em `docs/prints/` com os nomes abaixo.
 
 | Login | Minhas visitas | Nova visita | QR da visita |
 | --- | --- | --- | --- |
@@ -144,7 +143,9 @@ Resumo do que o arquivo [`firestore.rules`](firestore.rules) garante:
 - Anfitrião lê e cria só as próprias visitas, sempre com status `AGENDADA`.
 - Porteiro lê todas as visitas e só pode fazer `AGENDADA → DENTRO` e `DENTRO → SAIU`, alterando apenas os campos de entrada ou saída.
 
-!image.png !image.png !image.png
+![Regras publicadas](docs/prints/regras-publicadas.png)
+
+![Rules Playground: anfitrião lendo visita de outro anfitrião é negado](docs/prints/rules-playground-negado.png)
 
 ## Como trabalhamos (engenharia de software)
 
