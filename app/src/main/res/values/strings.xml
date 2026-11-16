@@ -85,4 +85,11 @@
     <string name="erro_qr_outro_dia">Este QR vale apenas para %1$s</string>
     <string name="erro_qr_ja_usado">Entrada já registrada às %1$s</string>
     <string name="erro_qr_encerrada">Esta visita já foi encerrada</string>
+
+    <!-- Compartilhar QR (C) -->
+    <string name="btn_compartilhar_qr">Compartilhar QR</string>
+    <string name="msg_compartilhar_qr">Olá, %1$s! Este é o seu QR para a visita de %2$s às %3$s. Mostre na portaria ao chegar.</string>
+    <string name="titulo_compartilhar">Enviar QR por…</string>
+    <string name="erro_compartilhar">Não foi possível compartilhar o QR</string>
+
 </resources>
