@@ -1,6 +1,8 @@
 package br.senai.portaria.ui.anfitriao;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.ImageView;
@@ -8,11 +10,16 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.core.content.ContextCompat;
+import androidx.core.content.FileProvider;
 
 import com.google.firebase.firestore.ListenerRegistration;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.WriterException;
 import com.journeyapps.barcodescanner.BarcodeEncoder;
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 
 import br.senai.portaria.R;
 import br.senai.portaria.data.VisitaRepository;
@@ -32,6 +39,9 @@ public class VisitaDetalheActivity extends BaseLogadaActivity {
     private TextView txtNome, txtEmpresa, txtPrevisto, txtStatus;
     private ListenerRegistration registro;
 
+    private Bitmap qrBitmap;        // guardado para compartilhar
+    private Visita visitaAtual;     // para montar a mensagem
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,6 +53,8 @@ public class VisitaDetalheActivity extends BaseLogadaActivity {
         txtEmpresa = findViewById(R.id.txtEmpresa);
         txtPrevisto = findViewById(R.id.txtPrevisto);
         txtStatus = findViewById(R.id.txtStatus);
+
+        findViewById(R.id.btnCompartilhar).setOnClickListener(x -> compartilhar());
 
         visitaId = getIntent().getStringExtra(EXTRA_ID);
         if (visitaId == null) {
@@ -57,8 +69,8 @@ public class VisitaDetalheActivity extends BaseLogadaActivity {
     private void gerarQr(String conteudo) {
         try {
             BarcodeEncoder encoder = new BarcodeEncoder();
-            Bitmap qr = encoder.encodeBitmap(conteudo, BarcodeFormat.QR_CODE, 800, 800);
-            imgQr.setImageBitmap(qr);
+            qrBitmap = encoder.encodeBitmap(conteudo, BarcodeFormat.QR_CODE, 800, 800);
+            imgQr.setImageBitmap(qrBitmap);
         } catch (WriterException e) {
             Log.e(TAG, "Falha ao gerar QR", e);
             Toast.makeText(this, R.string.erro_gerar_qr, Toast.LENGTH_SHORT).show();
@@ -89,6 +101,7 @@ public class VisitaDetalheActivity extends BaseLogadaActivity {
     }
 
     private void mostrar(Visita v) {
+        visitaAtual = v;
         txtNome.setText(v.getNomeVisitante());
         txtEmpresa.setText(v.getEmpresa());
         if (v.getData() != null) {
@@ -106,5 +119,37 @@ public class VisitaDetalheActivity extends BaseLogadaActivity {
         }
         txtStatus.setText(texto);
         txtStatus.setTextColor(ContextCompat.getColor(this, cor));
+    }
+
+    /**
+     * Salva o QR como PNG na pasta cache/qr e abre o menu de compartilhar do Android.
+     * O FileProvider dá ao app escolhido (WhatsApp, e-mail...) permissão temporária de leitura.
+     */
+    private void compartilhar() {
+        if (qrBitmap == null || visitaAtual == null) return;   // ainda carregando
+        try {
+            File pasta = new File(getCacheDir(), "qr");
+            pasta.mkdirs();
+            File arquivo = new File(pasta, "visita-" + visitaId + ".png");
+            try (FileOutputStream out = new FileOutputStream(arquivo)) {
+                qrBitmap.compress(Bitmap.CompressFormat.PNG, 100, out);
+            }
+            Uri uri = FileProvider.getUriForFile(this, getPackageName() + ".fileprovider", arquivo);
+
+            String texto = getString(R.string.msg_compartilhar_qr,
+                    visitaAtual.getNomeVisitante(),
+                    Datas.paraTela(visitaAtual.getData()),
+                    visitaAtual.getHoraPrevista());
+
+            Intent envio = new Intent(Intent.ACTION_SEND);   // Intent implícita
+            envio.setType("image/png");
+            envio.putExtra(Intent.EXTRA_STREAM, uri);
+            envio.putExtra(Intent.EXTRA_TEXT, texto);
+            envio.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+            startActivity(Intent.createChooser(envio, getString(R.string.titulo_compartilhar)));
+        } catch (IOException e) {
+            Log.e(TAG, "Falha ao compartilhar QR", e);
+            Toast.makeText(this, R.string.erro_compartilhar, Toast.LENGTH_SHORT).show();
+        }
     }
 }
