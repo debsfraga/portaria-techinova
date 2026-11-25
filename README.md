@@ -25,10 +25,11 @@ em tempo real, todos os visitantes que estão dentro.
 | Perfil | O que faz |
 | --- | --- |
 | **Anfitrião** | Agenda visitas, acompanha as próprias visitas ao vivo, mostra ou compartilha o QR e é avisado quando o visitante chega |
-| **Porteiro** | 	Lê o QR, confere os dados, registra entrada e saída, vê quem está na fábrica e consulta o histórico por empresa |
+| **Porteiro** | Lê o QR, confere os dados, registra entrada e saída, vê quem está na fábrica e consulta o histórico por empresa |
 
 O perfil fica em `usuarios/{uid}` e é definido pelo grupo no console do Firebase, nunca pelo próprio usuário.
-Uma visita passa por três estados: AGENDADA → DENTRO → SAIU.
+
+Uma visita passa por três estados: **AGENDADA → DENTRO → SAIU**.
 
 ## Telas
 
@@ -42,7 +43,7 @@ Uma visita passa por três estados: AGENDADA → DENTRO → SAIU.
 | ![Quem está agora](docs/prints/05-presentes.png) | ![QR válido](docs/prints/06-conferencia-ok.png) | ![QR recusado](docs/prints/07-conferencia-recusa.png) | ![Saída](docs/prints/08-saida.png) |
 
 | **Aviso de chegada** | **Compartilhar QR** | **Histórico por empresa** |
-| --- | --- | --- | --- |
+| --- | --- | --- |
 | ![Aviso de chegada](docs/prints/09-aviso-chegada.png) | ![Compartilhar QR](docs/prints/10-compartilhar-qr.png) | ![Histórico por empresa](docs/prints/11-historico.png) |
 
 ## Histórias de usuário (requisitos CORE)
@@ -59,6 +60,7 @@ Os critérios de aceite completos estão no corpo de cada issue.
 | C6 | Como porteiro, quero ver ao vivo quem está dentro para saber quem evacuar numa emergência. | #6 |
 
 ## Complementares
+
 | Complementar | O que faz | Autora |
 | --- | --- | --- |
 | Aviso de chegada ao anfitrião | Com Minhas visitas aberta, aparece "[nome] chegou às HH:mm" quando o porteiro registra a entrada (getDocumentChanges() no snapshot listener) | Isabelle |
@@ -174,9 +176,9 @@ Resumo do que o arquivo [`firestore.rules`](firestore.rules) garante:
 | NC2 Firestore com snapshot listener | Feito | Minhas visitas, Quem está agora e QR da visita |
 | NC3 Regras de segurança por perfil | Feito | Testadas no Rules Playground |
 | NC4 Perfil em `usuarios/{uid}` | Feito | Definido só pelo console |
-| NC5 RecyclerView com estado vazio | Feito | |
+| NC5 RecyclerView com estado vazio | Feito | Minhas visitas, Quem está agora e Histórico |
 | NC6 Formulários validados em português | Feito | |
-| NC7 Girar a tela não apaga o que foi digitado | Feito | `onSaveInstanceState` para data e hora |
+| NC7 Girar a tela não apaga o que foi digitado | Feito | `onSaveInstanceState` na Nova visita e no Histórico |
 | NC8 README | Feito | |
 | C1 Agendar visita | Feito | |
 | C2 Gerar QR | Feito | |
