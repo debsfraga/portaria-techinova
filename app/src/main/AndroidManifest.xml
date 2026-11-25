@@ -18,6 +18,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.PortariaTechInova">
         <activity
+            android:name=".ui.porteiro.HistoricoActivity"
+            android:exported="false" />
+        <activity
             android:name=".ui.porteiro.PresentesActivity"
             android:exported="false" />
         <activity
@@ -44,9 +47,7 @@
         <activity
             android:name=".ui.porteiro.ConferenciaActivity"
             android:exported="false"
-            android:windowSoftInputMode="adjustResize" />
-
-        <!-- leitor da biblioteca ZXing: deixa usar em pé -->
+            android:windowSoftInputMode="adjustResize" /> <!-- leitor da biblioteca ZXing: deixa usar em pé -->
         <activity
             android:name="com.journeyapps.barcodescanner.CaptureActivity"
             android:screenOrientation="fullSensor"
