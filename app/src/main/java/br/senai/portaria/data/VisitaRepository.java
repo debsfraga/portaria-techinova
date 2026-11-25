@@ -39,6 +39,11 @@ public class VisitaRepository {
         return visitas.document(id);
     }
 
+    public Query porEmpresa(String empresa) {
+        return visitas.whereEqualTo("empresa", empresa)
+                .orderBy("data", Query.Direction.DESCENDING);
+    }
+
     /**
      * Registra a entrada numa transação
      */
@@ -58,6 +63,28 @@ public class VisitaRepository {
             m.put("status", "DENTRO");
             m.put("entradaEm", FieldValue.serverTimestamp());
             m.put("porteiroEntradaUid", porteiroUid);
+            t.update(ref, m);
+            return null;
+        });
+    }
+
+    /**
+     * Registra a saída numa transação: só grava se a visita existir e estiver DENTRO.
+     * Dois porteiros tocando no mesmo visitante não registram duas saídas.
+     */
+    public Task<Void> registrarSaida(String id, String porteiroUid) {
+        DocumentReference ref = visitas.document(id);
+
+        return FirebaseFirestore.getInstance().runTransaction(t -> {
+            DocumentSnapshot s = t.get(ref);
+            if (!s.exists() || !"DENTRO".equals(s.getString("status"))) {
+                throw new FirebaseFirestoreException("Saída recusada",
+                        FirebaseFirestoreException.Code.ABORTED);
+            }
+            Map<String, Object> m = new HashMap<>();
+            m.put("status", "SAIU");
+            m.put("saidaEm", FieldValue.serverTimestamp());
+            m.put("porteiroSaidaUid", porteiroUid);
             t.update(ref, m);
             return null;
         });

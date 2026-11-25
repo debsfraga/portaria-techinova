@@ -25,6 +25,14 @@
     <string name="erro_ler_perfil">Não foi possível carregar seu perfil. Verifique a internet.</string>
     <string name="conta_sem_perfil">Sua conta ainda não foi liberada. Informe este código ao responsável: %1$s</string>
 
+    <!-- Saída (A) -->
+    <string name="titulo_registrar_saida">Registrar saída</string>
+    <string name="msg_registrar_saida">Confirmar a saída de %1$s?</string>
+    <string name="btn_cancelar">Cancelar</string>
+    <string name="btn_registrar_saida">Registrar saída</string>
+    <string name="saida_registrada">Saída de %1$s registrada</string>
+    <string name="erro_saida">Não foi possível registrar a saída. Ela pode já ter sido registrada.</string>
+
     <!-- Anfitrião (B) -->
     <string name="titulo_minhas_visitas">Minhas visitas</string>
     <string name="titulo_nova_visita">Nova visita</string>
@@ -44,6 +52,7 @@
     <string name="status_agendada">Agendada</string>
     <string name="status_dentro">Na fábrica</string>
     <string name="status_saiu">Saiu</string>
+    <string name="aviso_chegada">%1$s chegou às %2$s</string>
     <string name="titulo_detalhe_visita">QR da visita</string>
     <string name="instrucao_qr">Mostre este QR na portaria</string>
     <string name="desc_qr">QR code da visita</string>
@@ -77,4 +86,22 @@
     <string name="erro_qr_outro_dia">Este QR vale apenas para %1$s</string>
     <string name="erro_qr_ja_usado">Entrada já registrada às %1$s</string>
     <string name="erro_qr_encerrada">Esta visita já foi encerrada</string>
+
+    <!-- Compartilhar QR (C) -->
+    <string name="btn_compartilhar_qr">Compartilhar QR</string>
+    <string name="msg_compartilhar_qr">Olá, %1$s! Este é o seu QR para a visita de %2$s às %3$s. Mostre na portaria ao chegar.</string>
+    <string name="titulo_compartilhar">Enviar QR por…</string>
+    <string name="erro_compartilhar">Não foi possível compartilhar o QR</string>
+
+    <!-- Histórico por empresa (A) -->
+    <string name="menu_historico">Histórico por empresa</string>
+    <string name="titulo_historico">Histórico por empresa</string>
+    <string name="hint_buscar_empresa">Nome da empresa (como foi cadastrado)</string>
+    <string name="btn_buscar">Buscar</string>
+    <string name="vazio_historico">Nenhuma visita encontrada para essa empresa.</string>
+    <plurals name="contador_historico">
+        <item quantity="one">%d visita</item>
+        <item quantity="other">%d visitas</item>
+    </plurals>
+
 </resources>

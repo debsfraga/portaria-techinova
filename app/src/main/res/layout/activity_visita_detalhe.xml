@@ -67,5 +67,12 @@
             android:textSize="16sp"
             android:textStyle="bold" />
 
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnCompartilhar"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/altura_botao"
+            android:layout_marginTop="32dp"
+            android:text="@string/btn_compartilhar_qr" />
+
     </LinearLayout>
 </ScrollView>
