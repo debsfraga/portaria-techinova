@@ -93,4 +93,15 @@
     <string name="titulo_compartilhar">Enviar QR por…</string>
     <string name="erro_compartilhar">Não foi possível compartilhar o QR</string>
 
+    <!-- Histórico por empresa (A) -->
+    <string name="menu_historico">Histórico por empresa</string>
+    <string name="titulo_historico">Histórico por empresa</string>
+    <string name="hint_buscar_empresa">Nome da empresa (como foi cadastrado)</string>
+    <string name="btn_buscar">Buscar</string>
+    <string name="vazio_historico">Nenhuma visita encontrada para essa empresa.</string>
+    <plurals name="contador_historico">
+        <item quantity="one">%d visita</item>
+        <item quantity="other">%d visitas</item>
+    </plurals>
+
 </resources>

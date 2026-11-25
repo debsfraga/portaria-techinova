@@ -4,11 +4,14 @@ import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultLauncher;
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -126,5 +129,21 @@ public class PresentesActivity extends BaseLogadaActivity {
     protected void onStop() {
         super.onStop();
         if (registro != null) registro.remove();      // não é opcional
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        super.onCreateOptionsMenu(menu);                       // mantém o Sair da BaseLogadaActivity
+        getMenuInflater().inflate(R.menu.menu_porteiro, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if (item.getItemId() == R.id.action_historico) {
+            startActivity(new Intent(this, HistoricoActivity.class));
+            return true;
+        }
+        return super.onOptionsItemSelected(item);              // o Sair continua funcionando
     }
 }

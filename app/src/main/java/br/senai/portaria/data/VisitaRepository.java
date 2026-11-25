@@ -39,6 +39,11 @@ public class VisitaRepository {
         return visitas.document(id);
     }
 
+    public Query porEmpresa(String empresa) {
+        return visitas.whereEqualTo("empresa", empresa)
+                .orderBy("data", Query.Direction.DESCENDING);
+    }
+
     /**
      * Registra a entrada numa transação
      */
