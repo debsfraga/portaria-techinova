@@ -41,9 +41,9 @@ Uma visita passa por três estados: AGENDADA → DENTRO → SAIU.
 | --- | --- | --- | --- |
 | ![Quem está agora](docs/prints/05-presentes.png) | ![QR válido](docs/prints/06-conferencia-ok.png) | ![QR recusado](docs/prints/07-conferencia-recusa.png) | ![Saída](docs/prints/08-saida.png) |
 
-| Aviso de chegada | Compartilhar QR | Histórico por empresa |
+| **Aviso de chegada** | **Compartilhar QR** | **Histórico por empresa** |
 | --- | --- | --- | --- |
-| ![Aviso de chegada](docs/prints/05-presentes.png) | ![Compartilhar QR](docs/prints/06-conferencia-ok.png) | ![Histórico por empresa](docs/prints/07-conferencia-recusa.png) |
+| ![Aviso de chegada](docs/prints/09-aviso-chegada.png) | ![Compartilhar QR](docs/prints/10-compartilhar-qr.png) | ![Histórico por empresa](docs/prints/11-historico.png) |
 
 ## Histórias de usuário (requisitos CORE)
 
