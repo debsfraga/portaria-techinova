@@ -52,6 +52,7 @@
     <string name="status_agendada">Agendada</string>
     <string name="status_dentro">Na fábrica</string>
     <string name="status_saiu">Saiu</string>
+    <string name="aviso_chegada">%1$s chegou às %2$s</string>
     <string name="titulo_detalhe_visita">QR da visita</string>
     <string name="instrucao_qr">Mostre este QR na portaria</string>
     <string name="desc_qr">QR code da visita</string>

@@ -4,13 +4,13 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.Toast;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.ListenerRegistration;
 
@@ -21,6 +21,7 @@ import br.senai.portaria.R;
 import br.senai.portaria.data.VisitaRepository;
 import br.senai.portaria.model.Visita;
 import br.senai.portaria.ui.BaseLogadaActivity;
+import br.senai.portaria.util.Datas;
 
 public class MinhasVisitasActivity extends BaseLogadaActivity {
 
@@ -32,6 +33,9 @@ public class MinhasVisitasActivity extends BaseLogadaActivity {
     private View grupoVazio;
     private ListenerRegistration registro;
 
+    // não avisar sobre visitantes que já estavam DENTRO quando a tela abriu
+    private boolean primeiraCarga = true;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,6 +45,7 @@ public class MinhasVisitasActivity extends BaseLogadaActivity {
         rvVisitas = findViewById(R.id.rvVisitas);
         grupoVazio = findViewById(R.id.grupoVazio);
 
+        // o clique abre o QR da visita (#8)
         adapter = new VisitaAdapter(visita -> {
             Intent i = new Intent(this, VisitaDetalheActivity.class);
             i.putExtra(VisitaDetalheActivity.EXTRA_ID, visita.getId());
@@ -60,6 +65,7 @@ public class MinhasVisitasActivity extends BaseLogadaActivity {
         String uid = FirebaseAuth.getInstance().getUid();
         if (uid == null) return;                       // sem login, não há o que listar
 
+        primeiraCarga = true;
         registro = repo.doAnfitriao(uid).addSnapshotListener((query, e) -> {
             if (e != null) {
                 Log.w(TAG, "Falha ao ouvir visitas", e);
@@ -73,6 +79,18 @@ public class MinhasVisitasActivity extends BaseLogadaActivity {
             }
             adapter.atualizar(lista);
 
+            // getDocumentChanges(): só o que mudou desde o último aviso do Firestore
+            if (!primeiraCarga) {
+                for (DocumentChange dc : query.getDocumentChanges()) {
+                    if (dc.getType() != DocumentChange.Type.MODIFIED) continue;
+                    Visita mudou = dc.getDocument().toObject(Visita.class);
+                    if ("DENTRO".equals(mudou.getStatus()) && mudou.getEntradaEm() != null) {
+                        avisarChegada(mudou);
+                    }
+                }
+            }
+            primeiraCarga = false;
+
             boolean vazia = lista.isEmpty();
             rvVisitas.setVisibility(vazia ? View.GONE : View.VISIBLE);
             grupoVazio.setVisibility(vazia ? View.VISIBLE : View.GONE);
@@ -83,5 +101,11 @@ public class MinhasVisitasActivity extends BaseLogadaActivity {
     protected void onStop() {
         super.onStop();
         if (registro != null) registro.remove();       // não é opcional
+    }
+
+    private void avisarChegada(Visita v) {
+        String texto = getString(R.string.aviso_chegada,
+                v.getNomeVisitante(), Datas.hora(v.getEntradaEm()));
+        Snackbar.make(rvVisitas, texto, Snackbar.LENGTH_LONG).show();
     }
 }
