@@ -7,9 +7,9 @@ Projeto 10 da atividade **TechInova: apps para o chão de fábrica** — Desenvo
 
 | Integrante | Frente | Issues |
 | --- | --- | --- |
-| Débora Fraga | Base, login, roteador, regras, saída, README | #1, #2, #3, #7, #11, #12 |
-| Isabelle Morales | Anfitrião: agendar visita, Minhas visitas, QR da visita | #4, #5, #8 |
-| Mirela de Melo | Porteiro: Quem está agora, leitura do QR, validade da entrada | #6, #9, #10 |
+| Débora Fraga | Base do projeto, login, roteador, regras de segurança, saída, histórico por empresa e README | Setup, login, roteador, regras, saída, histórico, README |
+| Isabelle Morales | Anfitrião: agendar visita, Minhas visitas, QR da visita e aviso de chegada | Agendar visita, Minhas visitas, gerar QR, aviso de chegada |
+| Mirela de Melo | Porteiro: Quem está na fábrica agora, leitura do QR, validade da entrada e compartilhar o QR | Quem está agora, ler QR, validade e entrada única, compartilhar QR |
 
 ## O problema
 
@@ -24,10 +24,11 @@ em tempo real, todos os visitantes que estão dentro.
 
 | Perfil | O que faz |
 | --- | --- |
-| **Anfitrião** | Agenda visitas, vê as próprias visitas e mostra o QR ao visitante |
-| **Porteiro** | Lê o QR, confere os dados, registra entrada e saída e vê quem está na fábrica |
+| **Anfitrião** | Agenda visitas, acompanha as próprias visitas ao vivo, mostra ou compartilha o QR e é avisado quando o visitante chega |
+| **Porteiro** | 	Lê o QR, confere os dados, registra entrada e saída, vê quem está na fábrica e consulta o histórico por empresa |
 
 O perfil fica em `usuarios/{uid}` e é definido pelo grupo no console do Firebase, nunca pelo próprio usuário.
+Uma visita passa por três estados: AGENDADA → DENTRO → SAIU.
 
 ## Telas
 
@@ -39,6 +40,10 @@ O perfil fica em `usuarios/{uid}` e é definido pelo grupo no console do Firebas
 | Quem está na fábrica | Conferência: QR válido | Conferência: QR recusado | Registrar saída |
 | --- | --- | --- | --- |
 | ![Quem está agora](docs/prints/05-presentes.png) | ![QR válido](docs/prints/06-conferencia-ok.png) | ![QR recusado](docs/prints/07-conferencia-recusa.png) | ![Saída](docs/prints/08-saida.png) |
+
+| Aviso de chegada | Compartilhar QR | Histórico por empresa |
+| --- | --- | --- | --- |
+| ![Aviso de chegada](docs/prints/05-presentes.png) | ![Compartilhar QR](docs/prints/06-conferencia-ok.png) | ![Histórico por empresa](docs/prints/07-conferencia-recusa.png) |
 
 ## Histórias de usuário (requisitos CORE)
 
@@ -52,6 +57,13 @@ Os critérios de aceite completos estão no corpo de cada issue.
 | C4 | Como porteiro, quero que o QR só valha no dia marcado e uma única vez para evitar entradas indevidas. | #10 |
 | C5 | Como porteiro, quero registrar a saída para que a lista de presentes fique correta. | #11 |
 | C6 | Como porteiro, quero ver ao vivo quem está dentro para saber quem evacuar numa emergência. | #6 |
+
+## Complementares
+| Complementar | O que faz | Autora |
+| --- | --- | --- |
+| Aviso de chegada ao anfitrião | Com Minhas visitas aberta, aparece "[nome] chegou às HH:mm" quando o porteiro registra a entrada (getDocumentChanges() no snapshot listener) | Isabelle |
+| Compartilhar o QR como imagem | Botão na tela do QR que envia a imagem e uma mensagem pronta por WhatsApp, e-mail etc. (FileProvider + Intent ACTION_SEND) | Mirela |
+| Histórico de visitas por empresa | No menu do porteiro, busca todas as visitas de uma empresa, da mais recente para a mais antiga, com o status de cada uma | Débora |
 
 ## Tecnologias
 
@@ -73,7 +85,7 @@ br.senai.portaria
     ├── BaseLogadaActivity        menu Sair das telas logadas
     ├── auth/       LoginActivity, CadastroActivity
     ├── anfitriao/  MinhasVisitasActivity, NovaVisitaActivity, VisitaDetalheActivity, VisitaAdapter
-    └── porteiro/   PresentesActivity, ConferenciaActivity, PresenteAdapter
+    └── porteiro/   PresentesActivity, ConferenciaActivity, HistoricoActivity, PresenteAdapter
 ```
 
 ## Modelo de dados (Cloud Firestore)
@@ -117,6 +129,7 @@ O arquivo `google-services.json` **não** está no repositório. Para rodar o ap
    | --- | --- | --- | --- |
    | `visitas` | `anfitriaoUid` crescente | `data` decrescente | Minhas visitas |
    | `visitas` | `status` crescente | `entradaEm` crescente | Quem está na fábrica agora |
+   | `visitas` | `empresa` crescente | `data` decrescente | Histórico por empresa |
 
 8. **Contas**: em Authentication → Users, crie as contas de teste abaixo. Depois, em Firestore, crie a coleção
    `usuarios` com **um documento para cada conta, usando o UID da conta como ID do documento**, com os campos
@@ -171,12 +184,22 @@ Resumo do que o arquivo [`firestore.rules`](firestore.rules) garante:
 | C4 QR só no dia marcado e uma única vez | Feito | Transação no Firestore |
 | C5 Registrar saída | Feito | Transação no Firestore |
 | C6 Quem está na fábrica agora | Feito | Tempo real |
+| Complementar: aviso de chegada | Feito |  |
+| Complementar: compartilhar QR | Feito | |
+| Complementar: histórico por empresa | Feito |  |
 
 ## Limitações e próximos passos
-
+### Limitações:
 - A data do QR é comparada com o relógio do aparelho do porteiro; um relógio errado pode aceitar ou recusar indevidamente.
+- O histórico encontra só o nome exato da empresa, porque o Firestore não faz busca por "contém".
 - No Android 15 ou superior o app desenha atrás das barras do sistema (edge-to-edge obrigatório); as telas usam `fitsSystemWindows` para o conteúdo não ficar escondido.
-- Próximos passos: compartilhar o QR como imagem, aviso ao anfitrião quando o visitante entra, histórico de visitas por empresa e foto do visitante.
+- O APK roda em Android 13 ou superior (minSdk 33).
+
+### Próximos passos:
+- Foto do visitante na entrada
+- Busca do histórico por parte do nome da empresa
+- Relatório de visitas do mês
+- Lista de presentes para imprimir numa evacuação
 
 ## Entrega
 
